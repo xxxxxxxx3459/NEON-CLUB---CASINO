@@ -1,0 +1,278 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101018">
+<title>NEON CLUB — Casino</title>
+<style>
+:root{--bg:#101018;--panel:#191925;--gold:#f6c85f;--gold2:#ffdf8b;--muted:#a7a7ba;--green:#42d69a;--red:#ff647c}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 50% -20%,#34304b 0,#151520 38%,var(--bg) 75%);color:#f7f5ff;font-family:Inter,system-ui,sans-serif;min-height:100vh}
+header{padding:22px max(18px,calc((100% - 1120px)/2));display:flex;align-items:center;justify-content:space-between;gap:14px;border-bottom:1px solid #ffffff12;background:#101018b8;position:sticky;top:0;z-index:5;backdrop-filter:blur(14px)}
+.brand{font-weight:950;letter-spacing:2px;font-size:20px}
+.brand span{color:var(--gold)}
+.balance{background:#262437;border:1px solid #ffffff18;border-radius:14px;padding:10px 15px;font-weight:800;color:var(--gold2)}
+main{max-width:1120px;margin:auto;padding:30px 18px 60px}
+.hero{text-align:center;margin:22px 0 30px}
+.eyebrow{color:var(--gold);font-size:12px;font-weight:800;letter-spacing:3px}
+.hero h1{font-size:clamp(30px,6vw,54px);margin:10px 0;background:linear-gradient(90deg,#fff,var(--gold2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--muted);margin:0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:25px 0}
+.stat,.game{background:linear-gradient(145deg,#202033,#171722);border:1px solid #ffffff12;border-radius:18px;padding:17px}
+.stat small{color:var(--muted)}
+.stat strong{display:block;font-size:24px;margin-top:5px}
+.tabs{display:flex;gap:9px;flex-wrap:wrap;margin:25px 0}
+.tab,button{border:0;cursor:pointer;font:inherit;font-weight:800;border-radius:12px;padding:12px 17px;transition:.18s}
+.tab{background:#252538;color:#c9c7d9}
+.tab.active{background:var(--gold);color:#211a0c}
+.tab:hover,button:hover{transform:translateY(-1px);filter:brightness(1.08)}
+.game{padding:clamp(18px,4vw,30px);min-height:360px}
+.game h2{margin:0 0 7px;font-size:25px}
+.desc{color:var(--muted);margin:0 0 22px}
+.screen{background:#0d0d15;border:1px solid #ffffff14;border-radius:17px;padding:25px;text-align:center;margin:15px 0 20px}
+.reels{display:flex;justify-content:center;gap:10px;font-size:clamp(42px,9vw,70px)}
+.reel{background:#242438;border:1px solid #ffffff16;border-radius:13px;width:90px;height:94px;display:grid;place-items:center;box-shadow:inset 0 -5px 0 #0003}
+.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:end}
+.field{display:flex;flex-direction:column;gap:7px;color:var(--muted);font-size:13px;min-width:125px;flex:1}
+.field input,.field select{width:100%;padding:12px;background:#10101a;color:white;border:1px solid #ffffff24;border-radius:11px;font:inherit;outline:none}
+.primary{background:linear-gradient(135deg,#ffdf8b,#e9ae3d);color:#241a08}
+.secondary{background:#303047;color:#fff}
+.result{min-height:28px;text-align:center;font-weight:800;margin:15px 0 0;color:var(--gold2)}
+.hint{font-size:12px;color:var(--muted);text-align:center;margin-top:13px}
+.roulette-wheel{width:190px;height:190px;border-radius:50%;margin:0 auto 12px;border:8px solid #cda64c;background:conic-gradient(#b3263d 0 9.73%,#20202c 9.73% 19.46%,#b3263d 19.46% 29.19%,#20202c 29.19% 38.92%,#b3263d 38.92% 48.65%,#20202c 48.65% 58.38%,#b3263d 58.38% 68.11%,#20202c 68.11% 77.84%,#b3263d 77.84% 87.57%,#20202c 87.57% 97.3%,#16845d);display:grid;place-items:center;box-shadow:0 0 35px #0008}
+.wheel-center{background:#11111b;border-radius:50%;width:76px;height:76px;display:grid;place-items:center;font-size:27px;font-weight:900}
+.cards{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;min-height:105px;align-items:center}
+.playing-card{background:#f8f5ed;color:#181822;border-radius:12px;width:68px;height:94px;display:flex;flex-direction:column;justify-content:space-between;padding:8px;font-size:20px;font-weight:900;box-shadow:0 5px 15px #0005}
+.playing-card.red{color:#d52d4a}
+.playing-card span:last-child{text-align:right}
+footer{text-align:center;color:#77778b;font-size:12px;margin-top:28px;line-height:1.7}
+@media(max-width:600px){header{padding:15px 16px}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:19px}.tab{flex:1;padding:11px 8px}.game{min-height:400px}.controls button{width:100%}}
+</style>
+</head>
+<body>
+<header>
+<div class="brand">NEON <span>CLUB</span></div>
+<div class="balance">🪙 <span id="balance">5 000</span></div>
+</header>
+<main>
+<section class="hero">
+<div class="eyebrow">ВИРТУАЛЬНОЕ КАЗИНО</div>
+<h1>ТВОЯ ИГРА. ТВОИ ПРАВИЛА.</h1>
+<p>Играй в демо-режиме, проверяй удачу и следи за статистикой.</p>
+</section>
+<section class="stats">
+<div class="stat"><small>Победы</small><strong id="wins">0</strong></div>
+<div class="stat"><small>Поражения</small><strong id="losses">0</strong></div>
+<div class="stat"><small>Всего игр</small><strong id="games">0</strong></div>
+</section>
+<nav class="tabs">
+<button class="tab active" data-game="slots">🎰 Слоты</button>
+<button class="tab" data-game="roulette">🎡 Рулетка</button>
+<button class="tab" data-game="blackjack">🃏 Blackjack</button>
+<button class="tab" data-game="dice">🎲 Кости</button>
+</nav>
+<section class="game" id="gameArea"></section>
+<footer>Только виртуальные монеты. Нет пополнения, вывода или реальных денежных ставок.<br>Результаты игр генерируются случайно. Играйте ответственно.</footer>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+let balance=5000,wins=0,losses=0,games=0,playerHand=[],dealerHand=[],bjBet=0,bjActive=false;
+const symbols=['🍒','🍋','🍇','🔔','⭐','💎','7️⃣'];
+const fmt=n=>Math.floor(n).toLocaleString('ru-RU');
+
+function update(){
+$('balance').textContent=fmt(balance);
+$('wins').textContent=wins;
+$('losses').textContent=losses;
+$('games').textContent=games;
+}
+
+function betValue(){return Number($('bet')?.value||0)}
+
+function validBet(b){
+if(!Number.isInteger(b)||b<1){message('Укажи ставку от 1 монеты.');return false}
+if(b>balance){message('Недостаточно виртуальных монет.');return false}
+return true;
+}
+
+function message(t,good=false){
+const el=$('result');
+if(el){el.textContent=t;el.style.color=good?'#42d69a':'#ffdf8b'}
+}
+
+function settle(b,net){
+balance+=net;
+games++;
+if(net>b)wins++;
+else losses++;
+update();
+}
+
+function shell(title,desc,body){
+$('gameArea').innerHTML=`<h2>${title}</h2><p class="desc">${desc}</p>${body}`;
+}
+
+function betInput(label='Ставка'){
+return `<label class="field">${label}<input id="bet" type="number" min="1" step="1" value="100"></label>`;
+}
+
+// СЛОТЫ
+function showSlots(){
+shell('🎰 Слоты','Три одинаковых символа — крупная выплата. Два одинаковых — небольшая.',
+'<div class="screen"><div class="reels"><div class="reel" id="r1">🍒</div><div class="reel" id="r2">⭐</div><div class="reel" id="r3">💎</div></div><div class="result" id="result">Сделай ставку и нажми «Крутить»</div></div><div class="controls">'+betInput()+'<button class="primary" id="spin">Крутить барабаны</button></div><p class="hint">Три семёрки: x10 · три одинаковых: x5 · пара: x1.5</p>');
+$('spin').onclick=spinSlots;
+}
+
+function spinSlots(){
+let b=betValue();
+if(!validBet(b))return;
+balance-=b;
+let a=Array.from({length:3},()=>symbols[Math.floor(Math.random()*symbols.length)]);
+['r1','r2','r3'].forEach((id,i)=>$(id).textContent=a[i]);
+let mult=0;
+if(a.every(x=>x==='7️⃣'))mult=10;
+else if(a.every(x=>x===a[0]))mult=5;
+else if(new Set(a).size===2)mult=1.5;
+let profit=b*mult;
+settle(b,profit);
+message(mult?`Выигрыш! Выплата ${fmt(profit)} монет (x${mult}).`:`Не повезло — ставка ${fmt(b)} монет потеряна.`,!!mult);
+}
+
+// РУЛЕТКА
+function showRoulette(){
+shell('🎡 Европейская рулетка','Выбери число от 0 до 36. При попадании выплата составляет 35:1 плюс возврат ставки.',
+'<div class="screen"><div class="roulette-wheel"><div class="wheel-center" id="wheelNum">?</div></div><div class="result" id="result">Угадай число</div></div><div class="controls">'+betInput()+'<label class="field">Твоё число<input id="number" type="number" min="0" max="36" value="17"></label><button class="primary" id="roll">Крутить рулетку</button></div><p class="hint">37 равновероятных исходов: числа 0–36.</p>');
+$('roll').onclick=rollRoulette;
+}
+
+function rollRoulette(){
+let b=betValue(),n=Number($('number').value);
+if(!validBet(b))return;
+if(!Number.isInteger(n)||n<0||n>36){message('Выбери число от 0 до 36.');return}
+balance-=b;
+let r=Math.floor(Math.random()*37);
+$('wheelNum').textContent=r;
+let win=r===n;
+let payout=win?b*36:0;
+settle(b,payout);
+message(win?`Попадание! Выплата ${fmt(payout)} монет.`:`Выпало ${r}. Ставка проиграла.`,win);
+}
+
+// BLACKJACK
+function card(){
+let ranks=['A','2','3','4','5','6','7','8','9','10','J','Q','K'],suits=['♠','♥','♦','♣'];
+let rank=ranks[Math.floor(Math.random()*13)],suit=suits[Math.floor(Math.random()*4)];
+return {rank,suit};
+}
+
+function value(c){
+if(['J','Q','K'].includes(c.rank))return 10;
+if(c.rank==='A')return 11;
+return Number(c.rank);
+}
+
+function total(hand){
+let t=hand.reduce((s,c)=>s+value(c),0),aces=hand.filter(c=>c.rank==='A').length;
+while(t>21&&aces-- >0)t-=10;
+return t;
+}
+
+function renderHand(hand,id){
+$(id).innerHTML=hand.map(c=>`<div class="playing-card ${['♥','♦'].includes(c.suit)?'red':''}"><span>${c.rank}</span><span>${c.suit}</span></div>`).join('');
+}
+
+function showBlackjack(){
+bjActive=false;
+shell('🃏 Blackjack','Набери ближе к 21, чем дилер, но не перебери. Blackjack выплачивает 3:2.',
+'<div class="screen"><div>ДИЛЕР</div><div class="cards" id="dealerCards"></div><div id="dealerTotal" class="hint"></div><hr style="border-color:#ffffff18;margin:18px"><div>ТВОИ КАРТЫ</div><div class="cards" id="playerCards"></div><div id="playerTotal" class="hint"></div><div class="result" id="result">Нажми «Начать раунд»</div></div><div class="controls">'+betInput()+'<button class="primary" id="deal">Начать раунд</button><button class="secondary" id="hit" disabled>Ещё карту</button><button class="secondary" id="stand" disabled>Хватит</button></div>');
+$('deal').onclick=startBJ;
+$('hit').onclick=hitBJ;
+$('stand').onclick=standBJ;
+}
+
+function startBJ(){
+let b=betValue();
+if(!validBet(b))return;
+bjBet=b;
+balance-=b;
+playerHand=[card(),card()];
+dealerHand=[card(),card()];
+bjActive=true;
+$('deal').disabled=true;
+$('hit').disabled=false;
+$('stand').disabled=false;
+renderBJ(true);
+if(total(playerHand)===21)standBJ();
+}
+
+function renderBJ(hide){
+renderHand(playerHand,'playerCards');
+$('playerTotal').textContent='Сумма: '+total(playerHand);
+renderHand(hide?[dealerHand[0]]:dealerHand,'dealerCards');
+$('dealerTotal').textContent=hide?'Открыта одна карта':'Сумма: '+total(dealerHand);
+}
+
+function hitBJ(){
+if(!bjActive)return;
+playerHand.push(card());
+renderBJ(true);
+if(total(playerHand)>21)finishBJ('Перебор! Ты проиграл.',0);
+else if(total(playerHand)===21)standBJ();
+}
+
+function standBJ(){
+if(!bjActive)return;
+while(total(dealerHand)<17)dealerHand.push(card());
+renderBJ(false);
+let p=total(playerHand),d=total(dealerHand);
+if(d>21||p>d)finishBJ('Ты выиграл!',bjBet*2);
+else if(p===d)finishBJ('Ничья — ставка возвращена.',bjBet);
+else finishBJ('Дилер победил.',0);
+}
+
+function finishBJ(text,payout){
+bjActive=false;
+balance+=payout;
+games++;
+if(payout>bjBet)wins++;
+else if(payout<bjBet)losses++;
+update();
+message(text+(payout?` Выплата: ${fmt(payout)} монет.`:''),payout>bjBet);
+$('hit').disabled=true;
+$('stand').disabled=true;
+$('deal').disabled=false;
+}
+
+// КОСТИ
+function showDice(){
+shell('🎲 Кости','Выбери больше или меньше 7. Угадай сторону — выплата 2x.',
+'<div class="screen"><div style="font-size:70px" id="diceFace">🎲 🎲</div><div class="result" id="result">Сделай прогноз</div></div><div class="controls">'+betInput()+'<label class="field">Прогноз<select id="prediction"><option value="high">Больше 7 (8–12)</option><option value="low">Меньше 7 (2–6)</option></select></label><button class="primary" id="throw">Бросить кости</button></div><p class="hint">При выпадении 7 ставка проигрывает при любом прогнозе.</p>');
+$('throw').onclick=throwDice;
+}
+
+function throwDice(){
+let b=betValue();
+if(!validBet(b))return;
+let x=1+Math.floor(Math.random()*6),y=1+Math.floor(Math.random()*6),sum=x+y;
+$('diceFace').textContent=`${['⚀','⚁','⚂','⚃','⚄','⚅'][x-1]} ${['⚀','⚁','⚂','⚃','⚄','⚅'][y-1]}`;
+let win=$('prediction').value==='high'?sum>7:sum<7;
+balance-=b;
+let payout=win?b*2:0;
+settle(b,payout);
+message(`Выпало ${x} + ${y} = ${sum}. `+(win?`Победа! Выплата ${fmt(payout)}.`:'Ставка проиграла.'),win);
+}
+
+// ПЕРЕКЛЮЧЕНИЕ ИГР
+function switchGame(name){
+document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.game===name));
+({slots:showSlots,roulette:showRoulette,blackjack:showBlackjack,dice:showDice})[name]();
+}
+
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>switchGame(t.dataset.game)));
+switchGame('slots');
+update();
+</script>
+</body>
+</html>
